@@ -1,9 +1,8 @@
-import { useContext } from 'react';
 import Product from '../components/Product';
-import { ProductContext } from '../contexts/ProductContext';
+import { useGetProductsQuery } from '../services/products';
 
 const Home = () => {
-  const { products } = useContext(ProductContext);
+  const { data, error, isLoading } = useGetProductsQuery('');
 
   return (
     <div>
@@ -12,11 +11,16 @@ const Home = () => {
           <h1 className="text-3xl font-semibold mb-10 text-center">
             Explore Our Products
           </h1>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 lg:mx-8 gap-[30px] max-w-sm mx-auto md:max-w-none md:mx-0">
-            {products.map((product) => {
-              return <Product product={product} key={product.id} />;
-            })}
-          </div>
+          {isLoading ? (
+            <div>Loading...</div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 lg:mx-8 gap-[30px] max-w-sm mx-auto md:max-w-none md:mx-0">
+              {data?.map((product) => {
+                return <Product product={product} key={product.id} />;
+              })}
+            </div>
+          )}
+          {error && <div>Error fetching products</div>}
         </div>
       </section>
     </div>

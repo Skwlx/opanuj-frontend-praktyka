@@ -1,21 +1,27 @@
 import { useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { CartContext } from '../contexts/CartContext';
-import { ProductContext } from '../contexts/ProductContext';
+import { useGetProductQuery } from '../services/products';
 
 const ProductDetails = () => {
   const { id } = useParams();
   const { addToCart } = useContext(CartContext);
-  const { products } = useContext(ProductContext);
+  const { data, error, isLoading } = useGetProductQuery(id);
 
-  const product = products.find((item) => {
-    return item.id === parseInt(id!);
-  });
+  const product = data;
 
-  if (!product) {
+  if (isLoading) {
     return (
       <section className="h-screen flex justify-center items-center">
         Loading...
+      </section>
+    );
+  }
+
+  if (!product || error) {
+    return (
+      <section className="h-screen flex justify-center items-center">
+        Error fetching product
       </section>
     );
   }
