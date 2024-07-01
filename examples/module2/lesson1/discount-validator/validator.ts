@@ -9,8 +9,20 @@ export function formValidator(
     errors.push('First name is required');
   }
 
+  if (firstName.length < 1) {
+    errors.push('First name must be at least 1 character long');
+  }
+
   if (!lastName) {
     errors.push('Last name is required');
+  }
+
+  if (lastName.length < 1) {
+    errors.push('Last name must be at least 1 character long');
+  }
+
+  if (isNaN(age)) {
+    errors.push('Age must be a number');
   }
 
   if (age < 0) {
