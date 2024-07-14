@@ -10,8 +10,11 @@
     {weather.city}, {weather.country}
   </h2>
   <ul class="space-y-4">
-    {#each weather.weatherDetails as details}
-      <DailyWeather dailyWeather={details} />
-    {/each}
+    {#if Array.isArray(weather.weatherDetails) || (typeof weather.weatherDetails === 'object' && Array.isArray(weather.weatherDetails.Weather))}
+      {#each Array.isArray(weather.weatherDetails) ? weather.weatherDetails : weather.weatherDetails.Weather as details}
+        <DailyWeather dailyWeather={details} />
+      {/each}
+    {/if}
   </ul>
+  
 </div>

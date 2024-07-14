@@ -12,6 +12,13 @@
       if (result) {
         weather = result;
       }
+      if(!result) {
+        weather = {
+          city: 'No city found',
+          country: 'No country found',
+          weatherDetails: []
+        };
+      }
     } catch {
       console.error(`Failed to fetch weather for ${locationQuery}`);
     }
